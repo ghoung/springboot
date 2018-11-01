@@ -1,0 +1,28 @@
+sharding:
+    jdbc:
+        config:
+            sharding:
+                tables:
+                    test:
+                        actual-data-nodes: ds_0.test_${0..1}
+                        key-generator-column-name: id
+                        table-strategy:
+                            inline:
+                                algorithm-expression: test_${id % 2}
+                                sharding-column: id
+        datasource:
+            ds_0:
+                driver-class-name: com.mysql.jdbc.Driver
+                password: 123123
+                type: com.alibaba.druid.pool.DruidDataSource
+                url: jdbc:mysql://localhost:3306/ks?useSSL=false
+                username: root
+            names: ds_0
+
+activeMq:
+    password: admin
+    url: tcp://localhost:61616
+    user: admin
+
+logging:
+    config: classpath:logback-dev.xml
